@@ -16,16 +16,7 @@ public class Partitioner implements Partition {
     }
 
     public List<Team> partition() {
-        System.out.println("Doing Greedy Partition...");
-        GreedyPartition greedyPartition = new GreedyPartition(players, gameMap);
-        List<Team> teams = greedyPartition.partition();
-
-        if (PartitionHelper.isTeamsEven(teams)) {
-            System.out.println("Greedy Partition was successful!");
-            return teams;
-        }
-
-        System.out.println("Greedy Partition was unsuccessful! Doing brute force...");
+        System.out.println("Partitioning...");
         BruteForcePartition bruteForcePartition = new BruteForcePartition(players, gameMap);
         return bruteForcePartition.partition();
     }

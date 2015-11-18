@@ -40,7 +40,7 @@ public class Player {
     @Override
     public String toString() {
         return "Player " +
-                "slot:" + slot +
+                "slot:" + (slot + 1) +
                 ", rating: " + rating;
     }
 }

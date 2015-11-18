@@ -1,5 +1,7 @@
 package com.andrewszell.fafbalancer.maps.slot;
 
+import com.andrewszell.fafbalancer.maps.GameMap;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,6 +40,36 @@ public class SlotMovement {
         return slotMovements;
     }
 
+    public static List<SlotMovement> generateSlotMovementsWithOnlyTeamPosition(List<SlotAssignment> slotAssignments, GameMap map) {
+        List<SlotMovement> slotMovements = new ArrayList<>();
+
+        for (SlotAssignment slotAssignment : slotAssignments) {
+            SlotMovement newSlotMovement = SlotMovement.fromAssignment(slotAssignment);
+
+            //If from equals to
+            if (newSlotMovement.getFrom() == newSlotMovement.getTo()) {
+                continue;
+            }
+
+            //Add unique movement
+            boolean found = false;
+            for (SlotMovement slotMovement : slotMovements) {
+                if (slotMovement.equals(newSlotMovement)) {
+                    found = true;
+                    break;
+                }
+            }
+            if (!found && !isInGoodTeam(slotAssignment, map)) {
+                slotMovements.add(newSlotMovement);
+            }
+        }
+        return slotMovements;
+    }
+
+    public static boolean isInGoodTeam(SlotAssignment slotAssignment, GameMap map) {
+        return map.getTeamBySlot(slotAssignment.getSlot()) == map.getTeamBySlot(slotAssignment.getPlayer().getSlot());
+    }
+
     private static SlotMovement fromAssignment(SlotAssignment slotAssignment) {
         return new SlotMovement(slotAssignment.getPlayer().getSlot(), slotAssignment.getSlot());
     }
@@ -60,7 +92,7 @@ public class SlotMovement {
 
     @Override
     public String toString() {
-        return "Slot " + from + " => " + to;
+        return "Slot " + (from + 1) + " => " + (to + 1);
     }
 
     @Override
