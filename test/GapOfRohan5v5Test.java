@@ -1,30 +1,36 @@
-package com.andrewszell.fafbalancer;
-
+import com.andrewszell.fafbalancer.Player;
+import com.andrewszell.fafbalancer.Team;
 import com.andrewszell.fafbalancer.maps.GameMap;
 import com.andrewszell.fafbalancer.maps.GapOfRohan5V5GameMap;
 import com.andrewszell.fafbalancer.maps.slot.SlotAssignment;
 import com.andrewszell.fafbalancer.maps.slot.SlotMovement;
 import com.andrewszell.fafbalancer.partition.Partitioner;
+import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
-public class Main {
+/**
+ * Created by andras on 11/18/15.
+ */
 
-    public static void main(String[] args) {
+public class GapOfRohan5v5Test {
+    @Test
+    public void testWithPlayers() {
         GameMap map = new GapOfRohan5V5GameMap();
 
         List<Player> players = new ArrayList<>();
 
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Please type in the ratings: ");
-        for (int i = 0; i < map.getTeamCount() * map.getTeamPlayerCount(); i++) {
-            System.out.print("> ");
-            Player e = new Player(i, scanner.nextInt());
-            players.add(e);
-            System.out.println(e);
-        }
+        players.add(new Player(0, 1400));
+        players.add(new Player(1, 400));
+        players.add(new Player(2, 600));
+        players.add(new Player(3, 800));
+        players.add(new Player(4, 500));
+        players.add(new Player(5, 300));
+        players.add(new Player(6, 100));
+        players.add(new Player(7, 700));
+        players.add(new Player(8, 700));
+        players.add(new Player(9, 1100));
 
         System.out.println("### Partition players in " + map.getClass().getSimpleName());
 

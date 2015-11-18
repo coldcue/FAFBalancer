@@ -3,6 +3,8 @@ package com.andrewszell.fafbalancer.maps.slot;
 import com.andrewszell.fafbalancer.maps.GameMap;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class SlotMovement {
@@ -16,62 +18,30 @@ public class SlotMovement {
 
     public static List<SlotMovement> generateSlotMovements(List<SlotAssignment> slotAssignments) {
         List<SlotMovement> slotMovements = new ArrayList<>();
+        List<SlotAssignment> assignments = new ArrayList<>(slotAssignments);
+        Collections.sort(assignments, SlotAssignment.COMPARE_BY_PLAYER_SLOT);
 
-        for (SlotAssignment slotAssignment : slotAssignments) {
-            SlotMovement newSlotMovement = SlotMovement.fromAssignment(slotAssignment);
+        int i, j, minIndex;
+        int size = assignments.size();
 
-            //If from equals to
-            if (newSlotMovement.getFrom() == newSlotMovement.getTo()) {
-                continue;
-            }
-
-            //Add unique movement
-            boolean found = false;
-            for (SlotMovement slotMovement : slotMovements) {
-                if (slotMovement.equals(newSlotMovement)) {
-                    found = true;
-                    break;
-                }
-            }
-            if (!found) {
-                slotMovements.add(newSlotMovement);
+        for (i = 0; i < size - 1; ++i) {
+            minIndex = i;                /* minimum keresése */
+            for (j = i + 1; j < size; ++j)
+                if (assignments.get(j).getSlot() < assignments.get(minIndex).getSlot())
+                    minIndex = j;
+            if (minIndex != i) {         /* csere? */
+                Collections.swap(assignments, i, minIndex);
+                slotMovements.add(new SlotMovement(i, minIndex));
             }
         }
-        return slotMovements;
-    }
 
-    public static List<SlotMovement> generateSlotMovementsWithOnlyTeamPosition(List<SlotAssignment> slotAssignments, GameMap map) {
-        List<SlotMovement> slotMovements = new ArrayList<>();
+        //Collections.reverse(slotMovements);
 
-        for (SlotAssignment slotAssignment : slotAssignments) {
-            SlotMovement newSlotMovement = SlotMovement.fromAssignment(slotAssignment);
-
-            //If from equals to
-            if (newSlotMovement.getFrom() == newSlotMovement.getTo()) {
-                continue;
-            }
-
-            //Add unique movement
-            boolean found = false;
-            for (SlotMovement slotMovement : slotMovements) {
-                if (slotMovement.equals(newSlotMovement)) {
-                    found = true;
-                    break;
-                }
-            }
-            if (!found && !isInGoodTeam(slotAssignment, map)) {
-                slotMovements.add(newSlotMovement);
-            }
-        }
         return slotMovements;
     }
 
     public static boolean isInGoodTeam(SlotAssignment slotAssignment, GameMap map) {
         return map.getTeamBySlot(slotAssignment.getSlot()) == map.getTeamBySlot(slotAssignment.getPlayer().getSlot());
-    }
-
-    private static SlotMovement fromAssignment(SlotAssignment slotAssignment) {
-        return new SlotMovement(slotAssignment.getPlayer().getSlot(), slotAssignment.getSlot());
     }
 
     public int getFrom() {
@@ -93,17 +63,5 @@ public class SlotMovement {
     @Override
     public String toString() {
         return "Slot " + (from + 1) + " => " + (to + 1);
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        SlotMovement slotMovement = (SlotMovement) o;
-
-        if (from == slotMovement.to && to == slotMovement.from) return true;
-
-        return from == slotMovement.from && to == slotMovement.to;
     }
 }

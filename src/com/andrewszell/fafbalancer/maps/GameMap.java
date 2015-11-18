@@ -1,5 +1,6 @@
 package com.andrewszell.fafbalancer.maps;
 
+import com.andrewszell.fafbalancer.maps.slot.SlotAssignment;
 import com.andrewszell.fafbalancer.maps.slot.SlotMovement;
 import com.andrewszell.fafbalancer.Team;
 
@@ -12,5 +13,7 @@ public interface GameMap {
 
     int getTeamPlayerCount();
 
-    List<SlotMovement> getSlotMovements(List<Team> teamList);
+    List<SlotMovement> getSlotMovements(List<SlotAssignment> slotAssignments);
+
+    List<SlotAssignment> getSlotAssignments(List<Team> teamList);
 }

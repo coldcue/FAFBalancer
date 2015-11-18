@@ -2,9 +2,6 @@ package com.andrewszell.fafbalancer;
 
 import java.util.Comparator;
 
-/**
- * Created by andras on 11/17/15.
- */
 public class Player {
     private int slot;
     private int rating;

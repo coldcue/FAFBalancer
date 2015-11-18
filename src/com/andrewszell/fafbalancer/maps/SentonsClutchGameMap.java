@@ -38,7 +38,12 @@ public class SentonsClutchGameMap implements GameMap {
     }
 
     @Override
-    public List<SlotMovement> getSlotMovements(List<Team> teamList) {
+    public List<SlotMovement> getSlotMovements(List<SlotAssignment> slotAssignments) {
+        return SlotMovement.generateSlotMovements(slotAssignments);
+    }
+
+    @Override
+    public List<SlotAssignment> getSlotAssignments(List<Team> teamList) {
         PartitionHelper.sortTeamPlayersByRating(teamList);
 
         List<SlotAssignment> slotAssignments = new ArrayList<>(getTeamCount() * getTeamPlayerCount());
@@ -55,8 +60,6 @@ public class SentonsClutchGameMap implements GameMap {
         slotAssignments.add(new SlotAssignment(6, teamList.get(0).getPlayers().get(3)));
         slotAssignments.add(new SlotAssignment(7, teamList.get(1).getPlayers().get(3)));
 
-        List<SlotMovement> slotMovements = SlotMovement.generateSlotMovements(slotAssignments);
-
-        return slotMovements;
+        return slotAssignments;
     }
 }
