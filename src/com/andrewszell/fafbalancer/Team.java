@@ -38,8 +38,8 @@ public class Team {
     @Override
     public String toString() {
         StringBuilder s = new StringBuilder();
-        s.append("com.andrewszell.fafbalancer.Team " + id + " [" + getRatingSum() + "]");
-        players.forEach(player -> s.append(System.lineSeparator()).append(player.toString()));
+        s.append("Team " + id + " [" + getRatingSum() + "]");
+        players.forEach(player -> s.append(System.lineSeparator()).append(" - ").append(player.toString()));
         return s.toString();
     }
 }

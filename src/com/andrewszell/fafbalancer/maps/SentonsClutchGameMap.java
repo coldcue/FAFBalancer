@@ -1,7 +1,11 @@
 package com.andrewszell.fafbalancer.maps;
 
-import java.util.Arrays;
-import java.util.List;
+import com.andrewszell.fafbalancer.maps.slot.SlotAssignment;
+import com.andrewszell.fafbalancer.maps.slot.SlotMovement;
+import com.andrewszell.fafbalancer.Team;
+import com.andrewszell.fafbalancer.partition.PartitionHelper;
+
+import java.util.*;
 
 public class SentonsClutchGameMap implements GameMap {
     private final List<Integer> teams = Arrays.asList(
@@ -31,5 +35,28 @@ public class SentonsClutchGameMap implements GameMap {
     @Override
     public int getTeamPlayerCount() {
         return 4;
+    }
+
+    @Override
+    public List<SlotMovement> getSlotMovements(List<Team> teamList) {
+        PartitionHelper.sortTeamPlayersByRating(teamList);
+
+        List<SlotAssignment> slotAssignments = new ArrayList<>(getTeamCount() * getTeamPlayerCount());
+
+        slotAssignments.add(new SlotAssignment(0, teamList.get(0).getPlayers().get(0)));
+        slotAssignments.add(new SlotAssignment(1, teamList.get(1).getPlayers().get(0)));
+
+        slotAssignments.add(new SlotAssignment(2, teamList.get(0).getPlayers().get(1)));
+        slotAssignments.add(new SlotAssignment(3, teamList.get(1).getPlayers().get(1)));
+
+        slotAssignments.add(new SlotAssignment(4, teamList.get(0).getPlayers().get(2)));
+        slotAssignments.add(new SlotAssignment(5, teamList.get(1).getPlayers().get(2)));
+
+        slotAssignments.add(new SlotAssignment(6, teamList.get(0).getPlayers().get(3)));
+        slotAssignments.add(new SlotAssignment(7, teamList.get(1).getPlayers().get(3)));
+
+        List<SlotMovement> slotMovements = SlotMovement.generateSlotMovements(slotAssignments);
+
+        return slotMovements;
     }
 }

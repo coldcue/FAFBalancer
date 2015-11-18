@@ -1,13 +1,15 @@
 package com.andrewszell.fafbalancer.partition;
 
+import com.andrewszell.fafbalancer.Player;
 import com.andrewszell.fafbalancer.Team;
 import com.andrewszell.fafbalancer.maps.GameMap;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-class PartitionHelper {
+public class PartitionHelper {
     public static Optional<Team> getTeamWithLowestRatingSum(ArrayList<Team> teams) {
         return teams.stream().min((o1, o2) -> Integer.compare(o1.getRatingSum(), o2.getRatingSum()));
     }
@@ -43,5 +45,9 @@ class PartitionHelper {
             result.add(new Team(i));
         }
         return result;
+    }
+
+    public static void sortTeamPlayersByRating(List<Team> teams) {
+        teams.forEach(team -> Collections.sort(team.getPlayers(), Collections.reverseOrder(Player.RATING_ORDER)));
     }
 }
