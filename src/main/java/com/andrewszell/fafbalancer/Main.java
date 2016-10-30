@@ -1,5 +1,6 @@
 package com.andrewszell.fafbalancer;
 
+import com.andrewszell.fafbalancer.maps.DualGap12V12;
 import com.andrewszell.fafbalancer.maps.GameMap;
 import com.andrewszell.fafbalancer.maps.GapOfRohan5V5GameMap;
 import com.andrewszell.fafbalancer.maps.SentonsClutchGameMap;
@@ -19,7 +20,7 @@ public class Main {
 
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println("Please select map: [0:Senton's Clutch, 1:GapOfRohan5V5]");
+        System.out.println("Please select map: [0:Senton's Clutch, 1:GapOfRohan5V5, 2:DualGap12V12]");
         System.out.print("> ");
         switch (scanner.nextInt()) {
             case 0:
@@ -27,6 +28,9 @@ public class Main {
                 break;
             case 1:
                 map = new GapOfRohan5V5GameMap();
+                break;
+            case 2:
+                map = new DualGap12V12();
                 break;
             default:
                 throw new Exception("Unknown map");
